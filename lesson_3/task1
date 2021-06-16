@@ -1,0 +1,7 @@
+#lesson 3 task 1.1
+print('Glo Academy')
+print(' ')
+print('Glo Academy')
+
+#lesson 3 task 1.2
+print('Glo Academy', ' ', 'Glo Academy', sep='\n')
