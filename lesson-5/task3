@@ -1,0 +1,11 @@
+ticket = int(input('Введите номер билета:'))
+part_1 = ticket // 1000
+sum_part_1 = (part_1 % 10) + (part_1 // 100) + (part_1 // 10 % 10)
+
+part_2 = ticket % 1000
+sum_part_2 = (part_2 % 10) + (part_2 // 100) + (part_2 // 10 % 10)
+
+if sum_part_1 == sum_part_2:
+    print('Билет', ticket, 'счастливый')
+else:
+    print('Билет', ticket, 'НЕсчастливый')
