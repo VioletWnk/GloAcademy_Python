@@ -1,0 +1,9 @@
+text_1 = input('Введите статью 1:')
+text_2 = input('Введите статью 2:')
+text_3 = input('Введите статью 3:')
+if len(text_3) <= len(text_1) >= len(text_2):
+    print(text_1)
+elif len(text_1) <= len(text_2) >= len(text_3):
+    print(text_2)
+else:
+    print(text_3)
