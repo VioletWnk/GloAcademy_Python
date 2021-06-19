@@ -1,0 +1,7 @@
+tasks_todo = int(input('Введите кол-во задач:'))
+tasks_youdo = int(input('Введите кол-во задач для 1 дня:'))
+days = tasks_todo // tasks_youdo
+if (tasks_todo % tasks_youdo) == 0:
+    print(days)
+else:
+    print(days + 1)
