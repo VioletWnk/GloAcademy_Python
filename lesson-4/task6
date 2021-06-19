@@ -1,0 +1,6 @@
+def task6():
+    print('Введите число')
+    num = input()
+    max_num = max(num)
+    print('У числа', num, 'максимальная цифра равна', max_num)
+task6()
