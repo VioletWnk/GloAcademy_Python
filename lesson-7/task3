@@ -1,4 +1,10 @@
-num1 = int(input('Введите число:'))
-num2 = int(input('Введите число:'))
-for i in range(num1, num2 + 1):
+a = int(input('Введите число:'))
+b = int(input('Введите число:'))
+if a > b:
+    min = b
+    max = a
+else:
+    min = a
+    max = b
+for i in range(min, max + 1):
   print(i)
