@@ -1,0 +1,5 @@
+password = input('Введите пароль:')
+rep_password = input('Подтвредите пароль:')
+if password == rep_password:
+    print('Все окей!')
+else: print('Пароли не совпадают!')
