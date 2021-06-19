@@ -1,0 +1,12 @@
+num = int(input('Введите кол-во итераций:'))
+number = int(input('Введите число:'))
+maximum = number
+minimum = number
+for i in range(num - 1):
+    number = int(input('Введите число:'))
+    if number > maximum:
+        maximum = number
+    if number < minimum:
+        minimum = number
+print('Минимум равен', minimum)
+print('Максимум равен', maximum)
