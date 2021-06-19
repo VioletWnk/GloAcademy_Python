@@ -1,0 +1,15 @@
+pocket_num = int(input('Введите номер кармана:'))
+if pocket_num == 0:
+    print('Зеленый')
+elif 1 <= pocket_num <= 10 or 19 <= pocket_num <= 28:
+    if pocket_num % 2 == 0:
+        print('Черный')
+    else:
+        print('Красный')
+elif 11 <= pocket_num <= 18 or 29 <= pocket_num <= 36:
+    if pocket_num % 2 == 0:
+        print('Красный')
+    else:
+        print('Черный')
+else:
+    print('Ошибка ввода')
