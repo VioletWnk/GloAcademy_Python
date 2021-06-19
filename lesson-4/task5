@@ -1,0 +1,9 @@
+def task5():
+    print('Введите число')
+    seconds = int(input())
+    min = seconds // 60
+    result_hours = min // 60
+    result_min = min % 60
+    result_sec = seconds % 60
+    print(seconds, 'секунд - это', result_hours, 'час', result_min, 'минут', result_sec,'сек')
+task5()
