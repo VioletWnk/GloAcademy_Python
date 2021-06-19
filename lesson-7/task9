@@ -1,0 +1,11 @@
+flag = 0
+num = int(input('Введите кол-во итераций:'))
+
+for i in range(num):
+    number = int(input('Введите число:'))
+    if number % 2 != 0:
+        flag = 1
+if flag != 0:
+    print('YES')
+else:
+    print('NO')
