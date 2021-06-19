@@ -1,0 +1,10 @@
+num = int(input('Введите число:'))
+count = 1
+for i in range(1, num + 1):
+    result = i % 10
+    if result == 2 or result == 9:
+        count *= i
+if count == 1:
+    print(0)
+else:
+ print(count)
