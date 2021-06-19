@@ -1,0 +1,7 @@
+num = int(input('Введите число:'))
+count = 0
+for i in range (1, num + 1):
+    result = i % 10
+    if result == 1 or result == 3 or result == 7:
+        count += i
+print(count)
