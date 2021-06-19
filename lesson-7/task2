@@ -1,0 +1,4 @@
+num = int(input('Введите число:'))
+    for i in range(num + 1):
+        sqr = i * i
+        print('Квадрат числа', i, 'равен', sqr)
