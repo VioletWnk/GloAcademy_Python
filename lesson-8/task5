@@ -1,0 +1,14 @@
+number = int(input('Введите число:'))
+count_negative = 0
+count_positive = 0
+if number < 0:
+    count_negative += 1
+if number > 0:
+    count_positive += 1
+while number != 0:
+    number = int(input('Введите число:'))
+    if number < 0:
+        count_negative += 1
+    if number > 0:
+        count_positive += 1
+print(count_positive * count_negative)
