@@ -1,0 +1,16 @@
+number = int(input('Введите число:'))
+
+last_digit = number % 10
+maximum = last_digit
+minimum = last_digit
+number = number // 10
+
+while number != 0:
+    last_digit = number % 10
+    if last_digit > maximum:
+        maximum = last_digit
+    if last_digit <  minimum:
+        minimum = last_digit
+    number = number // 10
+print('Максимальная цифра равна', maximum)
+print('Минимальная  цифра равна', minimum)
