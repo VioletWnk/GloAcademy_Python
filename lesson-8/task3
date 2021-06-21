@@ -1,0 +1,11 @@
+number = int(input('Введите число:'))
+itterative_num = number
+total = 0
+while itterative_num != 0:
+    last_digit = itterative_num % 10
+    total += last_digit
+    itterative_num = itterative_num // 10
+if number // total == 0:
+    print('YES')
+else:
+    print('NO')
