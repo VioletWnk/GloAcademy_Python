@@ -1,9 +1,6 @@
 number = int(input('Введите число:'))
-
-last_digit = number % 10
-maximum = last_digit
-minimum = last_digit
-number = number // 10
+maximum = 0
+minimum = 9
 
 while number != 0:
     last_digit = number % 10
