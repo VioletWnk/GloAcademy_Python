@@ -1,9 +1,10 @@
 number = int(input('Введите число:'))
 counter = 0
-total = number
+total = 0
 
 while number != 0:
-    number = int(input('Введите число:'))
     total += number
     counter += 1
-print(int(total / counter))
+    number = int(input('Введите число:'))
+print(total)
+print(counter)
