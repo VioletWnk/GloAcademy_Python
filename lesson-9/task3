@@ -1,0 +1,8 @@
+def task3():
+    n = str(int(input('Введите число:')))
+    for i in n:
+        if int(i) == 1:
+            print('YES')
+            break
+    else:
+        print('NO')
