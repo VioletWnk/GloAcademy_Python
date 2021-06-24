@@ -1,0 +1,8 @@
+def task1():
+    while True:
+        number = int(input('Введите число:'))
+        if number < 10:
+            continue
+        if number > 100:
+            break
+        print(number)
