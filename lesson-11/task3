@@ -1,0 +1,9 @@
+def task3():
+    n = input('Введите адрес:')
+    path = n.split('.')
+    for i in path:
+        if int(i) not in range(256):
+            print('NO')
+            break
+    else:
+        print('YES')
