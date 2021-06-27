@@ -1,0 +1,7 @@
+def task3():
+    n = input('Введите символ:')
+    rus = range(ord('А'), ord('Я'))
+    if ord(n) in rus:
+        print('YES')
+    else:
+        print('NO')
