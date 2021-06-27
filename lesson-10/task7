@@ -1,0 +1,8 @@
+def task7():
+    surname = input('Введите фамилию:')
+    name = input('Введите имя:')
+    patronimic = input('Введите отчество:')
+    name = name[0].upper()
+    patronimic = patronimic[0].upper()
+    surname = surname[0].upper() + surname[1:].lower()
+    print(f'{surname} {name}.{patronimic}.')
