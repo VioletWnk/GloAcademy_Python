@@ -1,0 +1,10 @@
+def task1():
+    n = int(input('Введите число:'))
+    strings = []
+    for i in range(n):
+        strings.append(input('Введите слово:'))
+    search = input('Введите запрос:')
+    for i in strings:
+        if search.lower() in i.lower():
+            print(i)
+task1()
