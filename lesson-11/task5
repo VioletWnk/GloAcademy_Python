@@ -1,0 +1,9 @@
+def task5():
+    n = input('Введите строку:')
+    path = n.split()
+    for i in range(len(path)):
+        count = path.count(path[i])
+        if count == 1:
+            print(path[i], end=' ')
+
+task5()
