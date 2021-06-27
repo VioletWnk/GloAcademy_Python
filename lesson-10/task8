@@ -1,0 +1,7 @@
+def task8():
+    n = input('Введите текст:')
+    counter = 0
+    for i in range(len(n)):
+        if i+1 < len(n) and n[i] == n[i+1]:
+           counter += 1
+    print(counter)
