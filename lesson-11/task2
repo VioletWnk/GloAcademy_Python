@@ -1,0 +1,4 @@
+def task2():
+    n = input('Введите путь:')
+    path = n.split('\\')
+    print(*path, sep='\n')
