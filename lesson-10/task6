@@ -1,0 +1,5 @@
+def task6():
+    n = input('Введите текст:')
+    for i in n:
+        if i.isdigit():
+            print(i, end='')
