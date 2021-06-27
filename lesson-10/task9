@@ -1,0 +1,8 @@
+def task9():
+    n = input('Введите текст:')
+    print(len(n))
+    print(n[-1:-2:-1])
+    print(n[0:2])
+    print(n[-2:])
+    print(n[::-1])
+    print(n[1:-1])
