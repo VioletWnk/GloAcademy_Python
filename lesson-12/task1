@@ -10,8 +10,10 @@ def find_digit_order(num):
     #     num = num // 10
     # return counter
     
-def multiply(a, b):
-    mult_digits = find_digit_order(a) * find_digit_order(b)
-    return mult_digits
+def multiply(a, *nums):
+    multiply_digits = find_digit_order(a)
+    for i in nums:
+        multiply_digits *= find_digit_order(i)
+    return multiply_digits
 
 print(multiply(num_one, num_two))
