@@ -1,0 +1,11 @@
+date = input('Введите дату:')
+
+def define_star_date(date):
+    values = date.split('.')
+    multuply_day_month = int(values[0]) * int(values[1])
+    year = values[2][2:]
+    if multuply_day_month == int(year):
+        return True
+    else:
+        return False
+print(define_star_date(date))
