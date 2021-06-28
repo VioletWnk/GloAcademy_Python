@@ -1,0 +1,17 @@
+num_one = int(input('Введите число:'))
+num_two = int(input('Введите число:'))
+
+def find_digit_order(num):
+    return len(str(num))
+
+    # counter = 0
+    # while num > 0:
+    #     counter += 1
+    #     num = num // 10
+    # return counter
+    
+def multiply(a, b):
+    mult_digits = find_digit_order(a) * find_digit_order(b)
+    return mult_digits
+
+print(multiply(num_one, num_two))
