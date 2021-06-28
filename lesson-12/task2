@@ -1,0 +1,14 @@
+list_one = input('Введите строку:')
+list_two = input('Введите строку:')
+
+def find_max(list):
+    list = list.split()
+    list_new = []
+    for i in range(len(list)):
+        list_new.append(int(list[i]))
+    maximum = max(list_new)
+    return int(maximum)
+
+max_num_one = find_max(list_one)
+max_num_two = find_max(list_two)
+print(max_num_one * max_num_two)
