@@ -3,7 +3,7 @@ import random
 def is_valid(user_input):
     if user_input.isdigit():
         user_number = int(user_input)
-        if user_number >= 1 and user_number <= 100:
+        if user_number >= 1:
             return True
         else:
             return False
