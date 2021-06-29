@@ -1,0 +1,60 @@
+import random
+
+def is_valid(user_input):
+    if user_input.isdigit():
+        user_number = int(user_input)
+        if user_number >= 1 and user_number <= 100:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+def calc_optimal_try(max_value):
+    num_try = 0
+    while max_value > 0:
+        max_value = max_value // 2
+        num_try += 1
+    return num_try
+
+
+def generate_num(max_value):
+    return random.randint(1, max_value)
+
+
+def play_game(max_value):
+    secret_number = generate_num(max_value)
+    count_try = 0
+    while True:
+        user_input = input(f'Введите число от 1 до {max_value}:')
+
+        if not is_valid(user_input):
+            print('Введите верное число')
+            continue
+
+        user_number = int(user_input)
+        count_try += 1
+
+        if secret_number > user_number:
+            print('Число больше, чем введеное вами')
+        elif secret_number < user_number:
+            print('Число меньше, чем введеное вами')
+        else:
+            print(f'Да! Ты угадал, это число {secret_number}')
+            print(f'Вы использовали {count_try} попыток')
+            num_try = calc_optimal_try(max_value)
+            print(f'Оптимальное кол-во попопыток: {num_try}')
+            break
+
+
+def start_game():
+    print('Привет! Добро пожаловать в игру "Угадай число"')
+
+    while True:
+        play_game(int(input('Введите максимальное число:')))
+
+        repeat_game = input('Хотите продолжить игру? Введите "yes", чтобы продолжить:')
+        if repeat_game != 'yes':
+            break
+
+start_game()
