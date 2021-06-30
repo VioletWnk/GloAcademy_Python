@@ -1,8 +1,13 @@
 def task4():
     n = input('Введите символ:')
-    if ord(n) in range(65, 91):
+    a = ord('a')
+    z = ord('z')
+    A = ord('A')
+    Z = ord('Z')
+    if ord(n) in range(A, Z):
         print(n.lower())
-    elif ord(n) in range(97, 123):
+    elif ord(n) in range(a, z):
         print(n.upper())
     else:
         print(n)
+task4()
