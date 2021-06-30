@@ -1,0 +1,54 @@
+import random
+
+def is_valid(user_input):
+    if user_input.isdigit():
+        user_number = int(user_input)
+        if user_number >= 1:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+#Компьютер угадывает число
+def guess_number(min_value, max_value):
+    return random.randint(min_value, max_value)
+
+#Игра запускается
+def play_game(min_value, max_value):
+    print(f'Загаданное число в диапазоне от {min_value} до {max_value}')
+    while True:
+        comp_value = guess_number(min_value, max_value)
+
+        if input(f'{comp_value}, угадал?') != 'y':
+
+            if input(f'Число больше чем {comp_value} ?') == 'y':
+                min_value = comp_value + 1
+            else:
+                max_value = comp_value - 1
+
+        else:
+            print('Ура! Я угадал!')
+            break
+
+def start_game():
+    print('Давай ты будешь загадывать, а я угадывать :)')
+
+    while True:
+        min_value = input('Минимальное число будет:')
+        max_value = input('Максимальное число будет:')
+
+        if not is_valid(max_value) or not is_valid(min_value):
+            print('Надо ввести число')
+            continue
+
+        min_value = int(min_value)
+        max_value = int(max_value)
+
+        play_game(min_value, max_value)
+
+        repeat_game = input('Мне понравилось угадывать! Загадешь мне еще число?')
+        if repeat_game != 'yes':
+            break
+
+start_game()
