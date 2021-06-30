@@ -1,4 +1,7 @@
 def task1():
-    for i in range(97, 123):
+    a = ord('a')
+    z = ord('z')
+    for i in range(a, z):
         i = chr(i)
         print(i)
+task1()
