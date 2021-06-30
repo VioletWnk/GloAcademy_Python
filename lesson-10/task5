@@ -1,5 +1,12 @@
 def task5():
     a = input('Введите символ:')
     b = input('Введите символ:')
-    for i in range(ord(a), ord(b) + 1):
-        print(chr(i), end='')
+    if ord(a) < ord(b):
+        first_value = ord(a)
+        second_value = ord(b) + 1
+    else:
+        first_value = ord(b)
+        second_value = ord(a) + 1
+    for i in range(first_value, second_value):
+        print(chr(i), end=' ')
+task5()
