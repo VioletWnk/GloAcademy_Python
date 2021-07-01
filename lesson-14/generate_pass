@@ -1,0 +1,88 @@
+import random
+
+def create_password_hub():
+    length = check_numbers('Введите длину пароля:')
+    passwords_num = check_numbers('Сколько паролей вы хотите сгенерировать? Введите количество:')
+
+    digits_enabled = ask_questions('Включить цифры?')
+    latin_lowercase_enabled = ask_questions('Включить латинские строчные?')
+    latin_uppercase_enabled = ask_questions('Включить латинские заглавные?')
+    russin_uppercase_enabled = ask_questions('Включить русские строчные?')
+    russian_lowercase_enabled = ask_questions('Включить русские заглавные?')
+    symbols_enabled = ask_questions('Включить знаки пунктуации?')
+
+    enabled_chars = ''
+    digits = '0123456789'
+    symbols = '!"#$%&()*+,-./:;<=>?'
+    latin_lowercase = 'abcdefghijklmnopqrstuvwxyz'
+    latin_uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXY'
+    russian_lowercase = 'абвгдежзийклмнопрстуфхцчшщъыьэюя'
+    russian_uppercase = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
+
+    if digits_enabled:
+        enabled_chars += digits
+    if symbols_enabled:
+        enabled_chars += symbols
+    if latin_lowercase_enabled:
+        enabled_chars += latin_lowercase
+    if latin_uppercase_enabled:
+        enabled_chars += latin_uppercase
+    if russian_lowercase_enabled:
+        enabled_chars += russian_lowercase
+    if russin_uppercase_enabled:
+        enabled_chars += russian_uppercase
+
+    return enabled_chars, length, passwords_num
+
+def is_valid(input):
+    if input.isdigit():
+        input = int(input)
+        if input >= 1:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+def check_numbers(question):
+    while True:
+        number = input(question)
+        if is_valid(number):
+            break
+    return int(number)
+
+def ask_questions(question):
+    while True:
+        answer = input(f'{question} Введите Да или Нет')
+        answer = answer.lower()
+
+        if answer == 'да':
+            return True
+        elif answer == 'нет':
+            return False
+        else:
+            print('Введите Да или Нет')
+
+def generate_pass(length, chars):
+    password = ''
+    for i in range(length):
+        random_index = random.randint(0, len(chars) - 1)
+        password += chars[random_index]
+    return password
+
+def start_program():
+    print('Привет! Я генератор паролей. Давай сгенерируем тебе новый пароль.')
+    while True:
+        enabled_chars, length, passwords_num = create_password_hub()
+        if enabled_chars != '':
+            for i in range(passwords_num):
+
+                    password = generate_pass(length, enabled_chars)
+                    print(password)
+        else:
+            print('Не было выбрано ни одной опции')
+
+        new_password = input('Сгенерировать пароль еще раз?')
+        if new_password.lower() != 'да':
+            break
+start_program()
