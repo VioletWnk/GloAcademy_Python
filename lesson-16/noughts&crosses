@@ -1,0 +1,91 @@
+def create_field():
+    field = []
+    for i in range(3):
+        field.append(['*']  * 3)
+    return field
+
+def print_field(field):
+    for i in range(3):
+        for j in range(3):
+            print(field[i][j], end='')
+        print()
+
+def valid_input(input):
+    if input.isdigit():
+        input = int(input)
+        if input >= 1 and input <= 3:
+            return True
+
+    print('Нужно вводить число от 1 до 3')
+    return False
+
+def get_input(question):
+    while True:
+        number = input(question)
+        if not valid_input(number):
+            continue
+        break
+
+    return int(number)
+
+
+def win_game(field):
+    for i in range(3):
+        if field[i][0] != '*' and field[i][0] == field[i][1] == field[i][2]:
+            return True
+    for i in range(3):
+        if field[0][i] != '*' and field[0][i] == field[1][i] == field[2][0]:
+            return True
+    for i in range(3):
+        if field[0][0] != '*' and field[0][0] == field[1][1] == field[2][2]:
+            return True
+    for i in range(3):
+        if field[0][2] != '*' and field[0][2] == field[1][1] == field[2][0]:
+            return True
+
+    return False
+
+def end_game(field):
+    if win_game(field):
+        return True
+
+    for i in range(3):
+        for j in range(3):
+            if field[i][j] == '*':
+                return False
+    return True
+
+def start_game():
+    while True:
+        field = create_field()
+        current_symbol = 'X'
+
+        while not end_game(field):
+            print_field(field)
+
+            row = get_input('Введите номер строки')
+            column = get_input('Ввдите номер столбца')
+
+            if field[row - 1][column - 1] == '*':
+                field[row - 1][column - 1] = current_symbol
+            else:
+                print('Этот ячейка уже занята')
+                continue
+
+            if current_symbol == 'X':
+                current_symbol = 'O'
+            else:
+                current_symbol = 'X'
+
+        print_field(field)
+
+        if current_symbol == 'X':
+            print('Победил О')
+        else:
+            print('Победил X')
+
+        repeat_game = input('Хотите сыграть еще раз?')
+        if repeat_game.lower() != 'да':
+            break
+start_game()
+
