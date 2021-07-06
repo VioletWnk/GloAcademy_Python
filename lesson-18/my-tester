@@ -1,0 +1,65 @@
+import random
+
+def get_questions():
+    questions = ['Сколько будет 2 плюс два умноженное на два',
+                 'Бревно нужно распилить на 10 частей, сколько надо сделать распилов',
+                 'На двух руках 10 пальцев, скольна пальцев на 5 руках',
+                 'Укол делают каждые полчаса, сколько нужно минут для 3 уколов',
+                 'Пять свечей горело, две потухли. Сколько свечей осталось?']
+    answers = [6, 9, 25, 60, 2]
+    return questions, answers
+
+def is_valid(user_input):
+    if user_input.isdigit():
+        return True
+    else:
+        return False
+
+def get_answer():
+    while True:
+        user_answer = input('Введите ответ:')
+        if is_valid(user_answer):
+            return int(user_answer)
+        else:
+            print('Введите число')
+
+
+def get_level(count_answers):
+    level = ['Идиот', 'Кретин', 'Дурак', 'Нормальный', 'Талант', 'Гений']
+    return level[count_answers]
+
+def mix_questions_order(questions):
+    questions_order = [i for i in range(len(questions))]
+    random.shuffle(questions_order)
+    return questions_order
+
+def start_game():
+    user_name = input('Введите имя пользователя:')
+
+    while True:
+        count_right_answers = 0
+        questions, answers = get_questions()
+        questions_order = mix_questions_order(questions)
+
+        for i in questions_order:
+            print(f'Вопрос № {i + 1} ')
+            print(questions[i])
+
+            user_answer = get_answer()
+            right_answer = answers[i]
+            if user_answer == right_answer:
+                count_right_answers += 1
+
+        print(f'{user_name}, количество правильных ответов: {count_right_answers}. Ваш уровень: {get_level(count_right_answers)}')
+
+        repeat_game = input('Хотите сыграть еще раз?')
+        if repeat_game.lower() != 'да':
+            break
+
+start_game()
+
+
+
+
+
+
