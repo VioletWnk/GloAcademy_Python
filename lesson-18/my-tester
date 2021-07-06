@@ -41,12 +41,13 @@ def start_game():
         questions, answers = get_questions()
         questions_order = mix_questions_order(questions)
 
-        for i in questions_order:
-            print(f'Вопрос № {i + 1} ')
-            print(questions[i])
+
+        for id, val in enumerate(questions_order):
+            print(f'Вопрос №{id + 1}')
+            print(questions[val])
 
             user_answer = get_answer()
-            right_answer = answers[i]
+            right_answer = answers[val]
             if user_answer == right_answer:
                 count_right_answers += 1
 
@@ -57,9 +58,3 @@ def start_game():
             break
 
 start_game()
-
-
-
-
-
-
