@@ -1,61 +1,60 @@
 import random
-def generate_secret_word():
-    digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    secret_word = ''
-    for i in range(4):
-        random_index = random.randint(0, len(digits) - 1)
-        secret_word += str(digits[random_index])
-        digits.pop(random_index)
 
-    return secret_word
+def get_questions():
+    questions = ['Сколько будет 2 плюс два умноженное на два',
+                 'Бревно нужно распилить на 10 частей, сколько надо сделать распилов',
+                 'На двух руках 10 пальцев, скольна пальцев на 5 руках',
+                 'Укол делают каждые полчаса, сколько нужно минут для 3 уколов',
+                 'Пять свечей горело, две потухли. Сколько свечей осталось?']
+    answers = [6, 9, 25, 60, 2]
+    return questions, answers
 
+def is_valid(user_input):
+    if user_input.isdigit():
+        return True
+    else:
+        return False
 
-def calculate_bulls_count(user_word, secret_word):
-    coounter = 0
-    for i in range(len(secret_word)):
-        if secret_word[i] == user_word[i]:
-            coounter += 1
-    return coounter
-
-def calculate_cows_count(user_word, secret_word):
-    counter = 0
-    for i in range(len(user_word)):
-        if secret_word[i] != user_word[i] and user_word[i] in secret_word:
-            counter += 1
-
-    return counter
-
-def is_valid(user_word, secret_word):
-    if user_word.isdigit():
-        if len(user_word) == len(secret_word):
-            for i in user_word:
-                while int(i) <= 1:
-                    if user_word.count(i) <= 1:
-                        return True
-    print('Нужно ввести 4 числа')
-    return False
+def get_answer():
+    while True:
+        user_answer = input('Введите ответ:')
+        if is_valid(user_answer):
+            return int(user_answer)
+        else:
+            print('Введите число')
 
 
+def get_level(count_answers):
+    level = ['Идиот', 'Кретин', 'Дурак', 'Нормальный', 'Талант', 'Гений']
+    return level[count_answers]
+
+def mix_questions_order(questions):
+    questions_order = [i for i in range(len(questions))]
+    random.shuffle(questions_order)
+    return questions_order
 
 def start_game():
-    print('Найди число, задуманное компьютером!')
+    user_name = input('Введите имя пользователя:')
+
     while True:
-        secret_word = generate_secret_word()
-        print(secret_word)
-        while True:
-            user_word = input(f'Введите 4 цифры подряд:')
-            if is_valid(user_word, secret_word):
+        count_right_answers = 0
+        questions, answers = get_questions()
+        questions_order = mix_questions_order(questions)
 
-                bulls_count = calculate_bulls_count(user_word, secret_word)
-                cows_count = calculate_cows_count(user_word, secret_word)
 
-                print(f'{bulls_count} быков, {cows_count} коров')
+        for id, val in enumerate(questions_order):
+            print(f'Вопрос №{id + 1}')
+            print(questions[val])
 
-                if bulls_count == 4:
-                    print('Ура! Это победа')
-                    break
+            user_answer = get_answer()
+            right_answer = answers[val]
+            if user_answer == right_answer:
+                count_right_answers += 1
+
+        print(f'{user_name}, количество правильных ответов: {count_right_answers}. Ваш уровень: {get_level(count_right_answers)}')
 
         repeat_game = input('Хотите сыграть еще раз?')
         if repeat_game.lower() != 'да':
             break
+
 start_game()
