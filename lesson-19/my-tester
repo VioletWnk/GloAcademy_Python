@@ -1,0 +1,101 @@
+import math
+import random
+import pathlib
+from pathlib import Path
+
+def get_file_path():
+    dir_path = pathlib.Path.cwd()
+    path = Path(dir_path, 'file.txt')
+    return path
+
+
+def write_file(user_name, count_right_answers, result):
+    user_info = user_name, str(count_right_answers), result
+    user_str = (', '.join(user_info)) + '\n'
+    path = get_file_path()
+    file = open(path, 'a')
+    file.write(user_str)
+    file.close()
+
+
+def read_file():
+    path = get_file_path()
+    file = open(path, 'r')
+    lines = file.readlines()
+
+    print('|Имя|Кол-во ответов|Уровень|')
+    print('----------------------------')
+    for i in lines:
+        i = i.strip('\n').split(', ')
+        print(f'|{i[0]}|{i[1]}|{i[2]}|')
+
+    file.close()
+
+
+
+def get_questions():
+    questions = ['Сколько будет 2 плюс два умноженное на два',
+                 'Бревно нужно распилить на 10 частей, сколько надо сделать распилов',
+                 'На двух руках 10 пальцев, скольна пальцев на 5 руках',
+                 'Укол делают каждые полчаса, сколько нужно минут для 3 уколов',
+                 'Пять свечей горело, две потухли. Сколько свечей осталось?']
+    answers = [6, 9, 25, 60, 2]
+    return questions, answers
+
+
+def is_valid(user_input):
+    if user_input.isdigit():
+        return True
+    else:
+        return False
+
+
+def get_answer():
+    while True:
+        user_answer = input('Введите ответ:')
+        if is_valid(user_answer):
+            return int(user_answer)
+        else:
+            print('Введите число')
+
+
+def get_level(answers, count_right_answers):
+    level = ['Идиот', 'Кретин', 'Дурак', 'Нормальный', 'Талант', 'Гений']
+    level_step = (len(level) - 1) / len(answers)
+    level_index = math.ceil(level_step * count_right_answers)
+    return level[level_index]
+
+
+def mix_questions_order(questions):
+    questions_order = [i for i in range(len(questions))]
+    random.shuffle(questions_order)
+    return questions_order
+
+
+def start_game():
+    user_name = input('Введите имя пользователя:')
+
+    while True:
+        count_right_answers = 0
+        questions, answers = get_questions()
+        questions_order = mix_questions_order(questions)
+
+        for id, val in enumerate(questions_order):
+            print(f'Вопрос №{id + 1}')
+            print(questions[val])
+
+            user_answer = get_answer()
+            right_answer = answers[val]
+            if user_answer == right_answer:
+                count_right_answers += 1
+
+        result = get_level(answers, count_right_answers)
+        write_file(user_name, count_right_answers, result)
+        print(f'{user_name}, количество правильных ответов: {count_right_answers}. Ваш уровень: {result}')
+        read_file()
+
+        repeat_game = input('Хотите сыграть еще раз?')
+        if repeat_game.lower() != 'да':
+            break
+
+start_game()
