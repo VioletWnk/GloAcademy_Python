@@ -1,0 +1,144 @@
+import math
+import random
+import pathlib
+from pathlib import Path
+
+
+class Question:
+    def __init__(self, text, answer):
+        self.text = text
+        self.answer = answer
+
+
+class QuestionsStorage:
+    def __init__(self, questions):
+        self.questions = questions
+
+    def get_questions(self):
+        return self.questions
+
+    # def add_question(self, question):
+    #     self.questions.append(question)
+
+
+class User:
+    def __init__(self, name):
+        self.name = name
+        self.right_answers = 0
+        self.result = None
+
+
+class UsersResultStorage:
+    file_name = 'file.txt'
+
+    def __init__(self, user: User):
+        self.user = user
+        self.file_handler = FileHandler(self.file_name)
+
+    def add_result(self):
+        self.file_handler.write_file(self.user)
+
+    def show_results(self):
+        self.file_handler.read_file()
+
+
+class FileHandler:
+    def __init__(self, file_name):
+        self.file_name = file_name
+
+    def get_file_path(self):
+        dir_path = pathlib.Path.cwd()
+        new_path = Path(dir_path, self.file_name)
+        return new_path
+
+    def write_file(self, user):
+        file = open(self.get_file_path(), 'a')
+        file.write(f'{user.name},{user.right_answers},{user.result}\n')
+        file.close()
+
+    def read_file(self):
+        file = open(self.get_file_path(), 'r')
+
+        lines = file.readlines()
+        name = 'Имя'
+        count_answers = 'Кол-во ответов'
+        level = 'Уровень'
+        print(f'|{name:15}|{count_answers:15}|{level:15}|')
+        for i in lines:
+            i = i.strip('\n').split(',')
+            print(f'|{i[0]:15}|{i[1]:15}|{i[2]:15}|')
+
+        file.close()
+
+
+def get_questions_storage():
+    questions = [
+        Question('Сколько будет 2 плюс два умноженное на два', 6),
+        Question('Бревно нужно распилить на 10 частей, сколько надо сделать распилов', 9),
+        Question('На двух руках 10 пальцев, скольна пальцев на 5 руках', 25),
+        Question('Укол делают каждые полчаса, сколько нужно минут для 3 уколов', 60),
+        Question('Пять свечей горело, две потухли. Сколько свечей осталось?', 2)
+    ]
+
+    return QuestionsStorage(questions)
+
+
+def is_valid(user_input):
+    if user_input.isdigit():
+        return True
+    else:
+        return False
+
+
+def get_answer():
+    while True:
+        user_answer = input('Введите ответ:')
+        if is_valid(user_answer):
+            return int(user_answer)
+        else:
+            print('Введите число')
+
+
+def get_level(answers, count_right_answers):
+    level = ['Идиот', 'Кретин', 'Дурак', 'Нормальный', 'Талант', 'Гений']
+    level_step = (len(level) - 1) / len(answers)
+    level_index = math.ceil(level_step * count_right_answers)
+    return level[level_index]
+
+
+def mix_questions_order(questions):
+    questions_order = [i for i in range(len(questions.get_questions()))]
+    random.shuffle(questions_order)
+    return questions_order
+
+
+def start_game():
+    user = User(input('Введите имя пользователя:'))
+    user_storage = UsersResultStorage(user)
+
+    while True:
+        questions = get_questions_storage()
+
+        user.right_answers = 0
+        questions_order = mix_questions_order(questions)
+
+        for id, val in enumerate(questions_order):
+            print(f'Вопрос №{id + 1}')
+            print(questions.get_questions()[val].text)
+
+            user_answer = get_answer()
+            right_answer = questions.get_questions()[val].answer
+            if user_answer == right_answer:
+                user.right_answers += 1
+
+        user.result = get_level(questions.get_questions(), user.right_answers)
+        user_storage.add_result()
+
+        print(f'{user.name}, количество правильных ответов: {user.right_answers}. Ваш уровень: {user.result}')
+        user_storage.show_results()
+
+        repeat_game = input('Хотите сыграть еще раз?')
+        if repeat_game.lower() != 'да':
+            break
+            
+start_game()
