@@ -36,10 +36,17 @@ class UsersResultStorage:
         self.file_handler = FileHandler(self.file_name)
 
     def add_result(self):
-        self.file_handler.write_file(self.user)
+        self.file_handler.write_file(f'{self.user.name},{self.user.right_answers},{self.user.result}\n')
 
     def show_results(self):
-        self.file_handler.read_file()
+        lines = self.file_handler.read_file()
+        name = 'Имя'
+        count_answers = 'Кол-во ответов'
+        level = 'Уровень'
+        print(f'|{name:15}|{count_answers:15}|{level:15}|')
+        for i in lines:
+            i = i.strip('\n').split(',')
+            print(f'|{i[0]:15}|{i[1]:15}|{i[2]:15}|')
 
 
 class FileHandler:
@@ -51,24 +58,16 @@ class FileHandler:
         new_path = Path(dir_path, self.file_name)
         return new_path
 
-    def write_file(self, user):
+    def write_file(self, user_info):
         file = open(self.get_file_path(), 'a')
-        file.write(f'{user.name},{user.right_answers},{user.result}\n')
+        file.write(user_info)
         file.close()
 
     def read_file(self):
         file = open(self.get_file_path(), 'r')
-
-        lines = file.readlines()
-        name = 'Имя'
-        count_answers = 'Кол-во ответов'
-        level = 'Уровень'
-        print(f'|{name:15}|{count_answers:15}|{level:15}|')
-        for i in lines:
-            i = i.strip('\n').split(',')
-            print(f'|{i[0]:15}|{i[1]:15}|{i[2]:15}|')
-
+        file_lines = file.readlines()
         file.close()
+        return file_lines
 
 
 def get_questions_storage():
@@ -140,5 +139,5 @@ def start_game():
         repeat_game = input('Хотите сыграть еще раз?')
         if repeat_game.lower() != 'да':
             break
-            
+
 start_game()
