@@ -1,0 +1,172 @@
+import math
+import random
+import os
+import pathlib
+from pathlib import Path
+
+
+class Question:
+    def __init__(self, text, answer):
+        self.text = text
+        self.answer = answer
+
+
+class QuestionsStorage:
+
+    def __init__(self, questions='questions.txt'):
+        self.questions = questions
+        self.file_handler = FileHandler()
+        self.path = self.file_handler.get_file_path(self.questions)
+
+    def get_questions(self):
+        if self.file_handler.path_is_valid(self.path):
+            read_questions = self.file_handler.read_file(self.path)
+            questions = []
+            for i in read_questions:
+                question_and_answer = i.strip('\n').split('#')
+                questions.append(Question(question_and_answer[0], question_and_answer[1]))
+
+            return questions
+
+    def add_question(self):
+        new_question = input('Введите новый вопрос:')
+        new_answer = input('Введите ответ на вопрос:')
+        while not is_valid(new_answer):
+            new_answer = input('Введите ответ на вопрос:')
+
+        if self.file_handler.path_is_valid(self.path):
+            self.file_handler.write_file(f'{new_question}#{new_answer}\n', self.path)
+
+
+    def delete_question(self, question_id):
+        read_questions = self.file_handler.read_file(self.path)
+        actual_questions = []
+        for id, val in enumerate(read_questions):
+            if (id + 1) != question_id:
+                actual_questions.append(val)
+        self.file_handler.rewrite_file(''.join(actual_questions), self.path)
+
+
+
+class User:
+    def __init__(self, name):
+        self.name = name
+        self.right_answers = 0
+        self.result = None
+
+
+class UsersResultStorage:
+    file_name = 'file.txt'
+
+    def __init__(self, user: User):
+        self.user = user
+        self.file_handler = FileHandler()
+
+    def get_file_path(self):
+        path = self.file_handler.get_file_path(self.file_name)
+        return path
+
+    def add_result(self):
+        self.file_handler.write_file(
+            f'{self.user.name},{self.user.right_answers},{self.user.result}\n',
+            self.get_file_path()
+        )
+
+    def show_results(self):
+        lines = self.file_handler.read_file(self.get_file_path())
+        name = 'Имя'
+        count_answers = 'Кол-во ответов'
+        level = 'Уровень'
+        print(f'|{name:15}|{count_answers:15}|{level:15}|')
+        for i in lines:
+            i = i.strip('\n').split(',')
+            print(f'|{i[0]:15}|{i[1]:15}|{i[2]:15}|')
+
+
+class FileHandler:
+    def get_file_path(self, file_name):
+        dir_path = pathlib.Path.cwd()
+        new_path = Path(dir_path, file_name)
+        return new_path
+
+    def write_file(self, data, path):
+        file = open(path, 'a')
+        file.write(data)
+        file.close()
+
+    def rewrite_file(self, data, path):
+        file = open(path, 'w')
+        file.write(data)
+        file.close()
+
+    def read_file(self, path):
+        file = open(path, 'r')
+        file_read = file.readlines()
+        file.close()
+        return file_read
+
+    def path_is_valid(self, path):
+        return os.path.exists(path)
+
+
+def is_valid(user_input):
+    if user_input.isdigit():
+        return True
+    else:
+        return False
+
+
+def get_answer():
+    while True:
+        user_answer = input('Введите ответ:')
+        if is_valid(user_answer):
+            return int(user_answer)
+        else:
+            print('Введите число')
+
+
+def get_level(answers, count_right_answers):
+    level = ['Идиот', 'Кретин', 'Дурак', 'Нормальный', 'Талант', 'Гений']
+    level_step = (len(level) - 1) / len(answers)
+    level_index = math.ceil(level_step * count_right_answers)
+    return level[level_index]
+
+
+def mix_questions_order(questions):
+    questions_order = [i for i in range(len(questions))]
+    random.shuffle(questions_order)
+    return questions_order
+
+
+def start_game():
+    user = User(input('Введите имя пользователя:'))
+    user_storage = UsersResultStorage(user)
+    questions = QuestionsStorage()
+
+    while True:
+
+        all_questions = questions.get_questions()
+
+        user.right_answers = 0
+        questions_order = mix_questions_order(all_questions)
+
+        for id, val in enumerate(questions_order):
+            print(f'Вопрос №{id + 1}')
+            print(all_questions[val].text)
+
+            user_answer = get_answer()
+            right_answer = all_questions[val].answer
+            if user_answer == right_answer:
+                user.right_answers += 1
+
+        user.result = get_level(all_questions, user.right_answers)
+        user_storage.add_result()
+
+        print(f'{user.name}, количество правильных ответов: {user.right_answers}. Ваш уровень: {user.result}')
+        user_storage.show_results()
+
+        repeat_game = input('Хотите сыграть еще раз?')
+        if repeat_game.lower() != 'да':
+            break
+
+start_game()
