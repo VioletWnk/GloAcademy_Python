@@ -27,6 +27,8 @@ class QuestionsStorage:
                 questions.append(Question(question_and_answer[0], question_and_answer[1]))
 
             return questions
+        else:
+            return self.get_default_questions()
 
     def add_question(self):
         new_question = input('Введите новый вопрос:')
@@ -47,6 +49,16 @@ class QuestionsStorage:
         self.file_handler.rewrite_file(''.join(actual_questions), self.path)
 
 
+    def get_default_questions(self):
+        default_list = [
+            Question('Сколько будет 2 плюс два умноженное на два', 6),
+            Question('Бревно нужно распилить на 10 частей, сколько надо сделать распилов', 9),
+            Question('На двух руках 10 пальцев, скольна пальцев на 5 руках', 25),
+            Question('Укол делают каждые полчаса, сколько нужно минут для 3 уколов', 60),
+            Question('Пять свечей горело, две потухли. Сколько свечей осталось?', 2)
+        ]
+        return default_list
+
 
 class User:
     def __init__(self, name):
@@ -56,11 +68,10 @@ class User:
 
 
 class UsersResultStorage:
-    file_name = 'file.txt'
-
     def __init__(self, user: User):
         self.user = user
         self.file_handler = FileHandler()
+        self.file_name = 'file.txt'
 
     def get_file_path(self):
         path = self.file_handler.get_file_path(self.file_name)
@@ -164,6 +175,18 @@ def start_game():
 
         print(f'{user.name}, количество правильных ответов: {user.right_answers}. Ваш уровень: {user.result}')
         user_storage.show_results()
+
+        add_new_questions = input('Хотите добавить новый вопрос?Да/Нет')
+        if add_new_questions.lower() == 'да':
+            questions.add_question()
+
+        add_new_questions = input('Хотите удалить вопрос ?Да/Нет')
+        if add_new_questions.lower() == 'да':
+            delete_index = input('Введите номер вопроса, который хотите удалить:')
+            while not is_valid(delete_index):
+                delete_index = input('Введите номер вопроса, который хотите удалить:')
+            questions.delete_question(int(delete_index))
+
 
         repeat_game = input('Хотите сыграть еще раз?')
         if repeat_game.lower() != 'да':
