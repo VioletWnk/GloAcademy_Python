@@ -136,6 +136,7 @@ right_count = 0
 top_count = 0
 bottom_count = 0
 while True:
+    pygame.draw.rect(display, (255, 255, 255), pygame.Rect(0, 0, 700, 400))
     event_list = pygame.event.get()
 
     for event in event_list:
@@ -150,25 +151,24 @@ while True:
         ball.move()
         if ball.reach_wall() == 'left':
             left_count += 1
-            text = myfont.render(f'Левая стенка {left_count}', True, (180, 0, 0))
-            display.blit(text, (10, 59))
-
         if ball.reach_wall() == 'right':
             right_count += 1
-            text = myfont.render(f'Правая стенка {right_count}', True, (0, 0, 180))
-            display.blit(text, (500, 59))
-
         if ball.reach_wall() == 'top':
             top_count += 1
-            text = myfont.render(f'Левая стенка {top_count}', True, (180, 0, 0))
-            display.blit(text, (250, 50))
-
         if ball.reach_wall() == 'bottom':
             bottom_count += 1
-            text = myfont.render(f'Правая стенка {bottom_count}', True, (0, 0, 180))
-            display.blit(text, (250, 350))
 
+        left = myfont.render(f'Левая стенка {left_count}', True, (180, 0, 0))
+        display.blit(left, (10, 59))
 
+        right = myfont.render(f'Правая стенка {right_count}', True, (0, 0, 180))
+        display.blit(right, (500, 59))
+
+        top = myfont.render(f'Верхняя стенка {top_count}', True, (180, 0, 0))
+        display.blit(top, (250, 50))
+
+        bottom = myfont.render(f'Нижняя стенка {bottom_count}', True, (0, 0, 180))
+        display.blit(bottom, (250, 350))
 
     pygame.display.flip()
     clock.tick(60)
