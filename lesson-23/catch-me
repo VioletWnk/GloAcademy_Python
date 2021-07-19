@@ -1,0 +1,131 @@
+import pygame
+import random
+import time
+
+pygame.font.init()
+myfont = pygame.font.Font(None, 30)
+
+
+class Ball:
+    def __init__(self, display):
+        self.display = display
+        self.color = pygame.Color('red')
+        self.center_x = 100
+        self.center_y = 100
+        self.radius = 30
+
+        self.vx = 2
+        self.vy = 2
+
+    def show(self):
+        pygame.draw.circle(self.display, self.color, (self.center_x, self.center_y), self.radius)
+
+    def go(self):
+        self.center_x += self.vx
+        self.center_y += self.vy
+
+    def clear(self):
+        pygame.draw.circle(self.display, pygame.Color('white'), (self.center_x, self.center_y), self.radius)
+
+    def move(self):
+        self.clear()
+        self.go()
+        self.show()
+
+    def stop(self):
+        self.vx = 0
+        self.vy = 0
+
+    def in_window(self):
+        if self.center_x >= self.radius and self.center_y >= self.radius and self.center_x <= width - self.radius and self.center_y <= height - self.radius:
+            return True
+        else:
+            return False
+
+    def is_clicked(self, click_x, click_y):
+        max_width = self.center_x + self.radius
+        max_height = self.center_y + self.radius
+        min_width = self.center_x - self.radius
+        min_height = self.center_y - self.radius
+        if min_width <=  click_x <= max_width and min_height <= click_y <= max_height:
+            return True
+        else:
+            return False
+
+
+
+class RandomPointBall(Ball):
+    def __init__(self, display):
+        super().__init__(display)
+
+        self.color = pygame.Color('blue')
+
+        width, height = display.get_size()
+        self.center_x = random.randint(self.radius, width - self.radius)
+        self.center_y = random.randint(self.radius, height - self.radius)
+
+
+class PointBall(Ball):
+    def __init__(self, display, x, y):
+        super().__init__(display)
+        self.color = pygame.Color('yellow')
+        self.center_x = x
+        self.center_y = y
+
+
+class RandomPointMovingBall(RandomPointBall):
+    def __init__(self, display):
+        super().__init__(display)
+
+        self.vx = random.randint(-3, 3)
+        self.vy = random.randint(-3, 3)
+        while self.vx == 0 or self.vy == 0:
+            self.vx = random.randint(-3, 3)
+            self.vy = random.randint(-3, 3)
+
+
+pygame.init()
+
+width = 700
+height = 400
+display = pygame.display.set_mode((width, height))
+display.fill(pygame.Color('white'))
+
+balls = []
+for i in range(10):
+    ball = RandomPointMovingBall(display)
+    ball.color = pygame.Color('green')
+    ball.show()
+
+    balls.append(ball)
+
+pygame.display.flip()
+
+time.sleep(2)
+
+clock = pygame.time.Clock()
+while True:
+    event_list = pygame.event.get()
+    for event in event_list:
+        if event.type == pygame.QUIT:
+            pygame.quit()
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            count_balls = 0
+            for ball in balls:
+                if ball.is_clicked(event.pos[0], event.pos[1]):
+                    ball.stop()
+
+                    if ball.in_window():
+                        count_balls += 1
+                    text = myfont.render(f'На экране {count_balls}', True, (180, 0, 0))
+                    display.blit(text, (10, 59))
+
+
+
+
+    for ball in balls:
+        ball.move()
+
+    pygame.display.flip()
+    clock.tick(60)
